@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poisson</title>
+    <script src="js/Chart.min.js"></script>
+    <script src="js/Chart.bundle.js"></script>
+    <script src="js/poisson.js"></script>
+    <link rel="stylesheet" href="css/Chart.css">
+    <link rel="stylesheet" href="css/body.css">
+</head>
+<body>
+    <div class="topnav">
+        <a class="active" href="#home">Inicio</a>
+        <a href="index.html">Poisson</a>
+        <a href="binomial.html">Bernoulli</a>
+        <a href="#inversa">Tranformada Inversa</a>
+    </div>
+    <br>
+    <article>
+        <form action="">
+            <input type="text" placeholder="lambda" id="lambda">
+            <input type="text" placeholder="x" id="x">
+            <button type="button" onclick="miFuncion();">Graficar</button>
+        </form>
+    </article>
+    <div class="myChart">
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+    <p id="demo"></p>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bernoulli</title>
+    <script src="js/Chart.min.js"></script>
+    <script src="js/Chart.bundle.js"></script>
+    <link rel="stylesheet" href="css/Chart.css">
+    <link rel="stylesheet" href="css/body.css">
+</head>
+<script >
+
+function fact(n)
+
+{ f=1;
+
+for (i=1;i <n+1; i++) { f=f*i };
+
+return f }
+
+function bin()
+
+{ k=parseInt(document.datos.k.value);
+
+n=parseInt(document.datos.n.value);
+
+p=parseFloat(document.datos.p.value);
+
+document.datos.prob.value= fact(n)/(fact(n-k)*fact(k))*Math.pow(p,k)*Math.pow(1-p,n-k); }
+
+</script>
+
+</head>
+
+<body text=green bgcolor=white>
+
+<div class="topnav">
+    <a class="active" href="#home">Inicio</a>
+    <a href="index.html">Poisson</a>
+    <a href="binomial.html">Bernoulli</a>
+    <a href="#inversa">Tranformada Inversa</a>
+</div>
+<br>
+Probabilidad P(x=k) en una distribución binomial B(n,p).<BR><HR>
+
+<form name="datos">
+
+n=<input type="text" name="n" size="3">........
+
+p=<input type="text" name="p" size="3">.......
+
+k=<input type="text" name="k" size="3"><BR><BR><HR>
+
+<input type="button" value="Calcular" onClick="bin()">.......
+
+Probabilidad.........P(x=k) =<input type="text" name="prob">
+
+</form>
+
+</body>
+
+</html>
