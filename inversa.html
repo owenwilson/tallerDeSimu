@@ -6,7 +6,7 @@
     <title>Poisson</title>
     <script src="js/Chart.min.js"></script>
     <script src="js/Chart.bundle.js"></script>
-    <script src="js/poisson.js"></script>
+    <script src="js/inversa.js"></script>
     <link rel="stylesheet" href="css/Chart.css">
     <link rel="stylesheet" href="css/body.css">
 </head>
@@ -19,7 +19,19 @@
     </div>
     <br>
     <article>
-        
+        <form action="">
+            <label for="">Distribucion 1</label>
+            <input type="text" placeholder="varA" id="fA">
+            /
+            <input type="text" placeholder="varB" id="fB">
+            <br>
+            <label for="">Distribucion 2</label>
+            <input type="text" placeholder="varC" id="fA">
+            /
+            <input type="text" placeholder="varD" id="fA">
+            <br>
+            <button type="button" onclick="miFuncion();">Graficar</button>
+        </form>
     </article>
     <div class="myChart">
         <canvas id="myChart" width="400" height="400"></canvas>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poisson</title>
+    <script src="js/Chart.min.js"></script>
+    <script src="js/Chart.bundle.js"></script>
+    <script src="js/poisson.js"></script>
+    <link rel="stylesheet" href="css/Chart.css">
+    <link rel="stylesheet" href="css/body.css">
+</head>
+<body>
+    <div class="topnav">
+        <a class="active" href="index.html">Inicio</a>
+        <a href="poisson.html">Poisson</a>
+        <a href="binomial.html">Bernoulli</a>
+        <a href="inversa.html">Tranformada Inversa</a>
+    </div>
+    <br>
+    <article>
+        <form action="">
+            <label for="x">Demanda Diaria:</label>
+            <select id="x" name="Demanda">
+              <option value="0">0 dias</option>
+              <option value="1">1 dias</option>
+              <option value="2">2 dias</option>
+              <option value="3">3 dias</option>
+              <option value="4">4 dias</option>  
+              <option value="5">5 dias</option>
+              <option value="6">6 dias</option>
+              <option value="7">7 dias</option>
+              <option value="8">8 dias</option>  
+            </select>
+            <input type="text" placeholder="lambda" id="lambda">
+            <button type="button" onclick="miFuncion();">Graficar</button>
+            <br>
+            <input type="text" placeholder="probabilidad" id="x">
+            <input type="text" placeholder="lambda" id="lambda">
+        </form>
+    </article>
+    <div class="myChart">
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+    <p id="demo"></p>
+</body>
+</html>
