@@ -3,16 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poisson</title>
-    <!-- <script src="js/Chart.min.js"></script> -->
+    <title>Inicio</title>
     <script src="{{ url_for('static', filename='js/Chart.min.js')}}"></script>
-    <!-- <script src="js/Chart.bundle.js"></script> -->
     <script src="{{ url_for('static', filename='js/Chart.bundle.js')}}"></script>
-    <!-- <script src="js/poisson.js"></script> -->
-    <script src="{{ url_for('static', filename='js/poisson.js')}}"></script>
-    <!-- <link rel="stylesheet" href="css/Chart.css"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/Chart.css')}}">
-    <!-- <link rel="stylesheet" href="css/body.css"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/body.css')}}">
 </head>
 <body>
@@ -24,11 +18,47 @@
     </div>
     <br>
     <article>
-        
-    </article>
-    <div class="myChart">
         <canvas id="myChart" width="400" height="400"></canvas>
-    </div>
-    <p id="demo"></p>
+        <nav><a id="myChart" href="{{ url_for( 'reporte_home' )}}">Graficar</a></nav>
+    </article>
+    <script>
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Mes1', 'Mes2', 'Mes3', 'Mes4', 'Mes5', 'Mes6', 'Mes7', 'Mes8', 'Mes9', 'Mes10', 'Mes11', 'Mes12'],
+        datasets: [{
+            label: 'SIMULACION DE INVENTARIOS', // Name the series
+            data: [500,	50,	2424,	14040,	14141,	4111,	4544,	47,	5555, 6811],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                        }
+                    }]
+                }
+            }
+    });
+    </script>
 </body>
 </html>

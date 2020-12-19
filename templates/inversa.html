@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poisson</title>
+    <title>Inversa</title>
     <script src="{{ url_for('static', filename='js/Chart.min.js')}}"></script>
     <script src="{{ url_for('static', filename='js/Chart.bundle.js')}}"></script>
     <script src="{{ url_for('static', filename='js/inversa.js')}}"></script>
@@ -34,11 +34,9 @@
             <input type="text" placeholder="varD" id="fA">
             <br>
             <button type="button" onclick="miFuncion();">Graficar</button>
+
+            <h3>{{ transformada }}</h3>
         </form>
     </article>
-    <div class="myChart">
-        <canvas id="myChart" width="400" height="400"></canvas>
-    </div>
-    <p id="demo"></p>
 </body>
 </html>

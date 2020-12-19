@@ -46,18 +46,48 @@ Probabilidad P(x=k) en una distribución binomial B(n,p).<BR><HR>
 
 <form name="datos">
 
-n=<input type="text" name="n" size="3">........
+n=<input type="text" name="n" size="3">
 
-p=<input type="text" name="p" size="3">.......
+p=<input type="text" name="p" size="3">
 
 k=<input type="text" name="k" size="3"><BR><BR><HR>
 
-<input type="button" value="Calcular" onClick="bin()">.......
+<input type="button" value="Calcular" onClick="bin()">
 
-Probabilidad.........P(x=k) =<input type="text" name="prob">
+Probabilidad _______ P(x=k) =<input type="text" name="prob">
 
 </form>
-
+<article>
+    <canvas id="myChart" width="400" height="400"></canvas>
+</article>
+<script>
+    var ctx = document.getElementById('myChart');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Desicion',],
+            datasets: [{
+                label: 'Inventarios',
+                data: [0.75],
+                backgroundColor: [
+                    'rgba(66, 134, 244, 0.2)',
+                    'rgba(74, 135, 72, 0.2)',
+                    'rgba(229, 89, 50, 0.2)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
 </body>
 
 </html>

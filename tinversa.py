@@ -7,4 +7,4 @@ a = Symbol('a', positive = True)
 # Using inverse_laplace_transform() method 
 gfg = inverse_laplace_transform(exp(-a * s)/s, s, 5) 
   
-print(gfg)
+# print(gfg)2
