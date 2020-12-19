@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bernoulli</title>
-    <script src="js/Chart.min.js"></script>
-    <script src="js/Chart.bundle.js"></script>
-    <link rel="stylesheet" href="css/Chart.css">
-    <link rel="stylesheet" href="css/body.css">
+    <script src="{{ url_for('static', filename='js/Chart.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/Chart.bundle.js')}}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Chart.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/body.css')}}">
 </head>
 <script >
 
@@ -36,10 +36,10 @@ document.datos.prob.value= fact(n)/(fact(n-k)*fact(k))*Math.pow(p,k)*Math.pow(1-
 <body text=green bgcolor=white>
 
 <div class="topnav">
-    <a class="active" href="#home">Inicio</a>
-    <a href="poisson.html">Poisson</a>
-    <a href="binomial.html">Bernoulli</a>
-    <a href="#inversa">Tranformada Inversa</a>
+    <a class="active" href="{{ url_for('principal')}}">Inicio</a>
+    <a href="{{ url_for('poisson')}}">Poisson</a>
+    <a href="{{ url_for('binomial')}}">Bernoulli</a>
+    <a href="{{ url_for('inversa')}}">Tranformada Inversa</a>
 </div>
 <br>
 Probabilidad P(x=k) en una distribución binomial B(n,p).<BR><HR>
