@@ -7,9 +7,9 @@
     <script src="{{ url_for('static', filename='js/Chart.min.js')}}"></script>
     <script src="{{ url_for('static', filename='js/Chart.bundle.js')}}"></script>
     <script src="{{ url_for('static', filename='js/inversa.js')}}"></script>
-    <!-- <script src="js/inversa.js"></script> -->
-    <!-- <link rel="stylesheet" href="css/Chart.css">
-    <link rel="stylesheet" href="css/body.css"> -->
+    <script src="{{ url_for('static', filename='js/jquery-3.5.1.slim.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/Chart.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/body.css')}}">
 </head>
@@ -18,25 +18,92 @@
         <a class="active" href="{{ url_for('principal')}}">Inicio</a>
         <a href="{{ url_for('poisson')}}">Poisson</a>
         <a href="{{ url_for('binomial')}}">Bernoulli</a>
-        <a href="{{ url_for('inversa')}}">Tranformada Inversa</a>
+        <a href="{{ url_for('inversa')}}">Simulacion</a>
     </div>
     <br>
     <article>
-        <form action="">
-            <label for="">Distribucion 1</label>
-            <input type="text" placeholder="varA" id="fA">
-            /
-            <input type="text" placeholder="varB" id="fB">
-            <br>
-            <label for="">Distribucion 2</label>
-            <input type="text" placeholder="varC" id="fA">
-            /
-            <input type="text" placeholder="varD" id="fA">
-            <br>
-            <button type="button" onclick="miFuncion();">Graficar</button>
-
-            <h3>{{ transformada }}</h3>
+        <form class="form-inline" action="{{url_for('inversa_resultado')}}" method="post">
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" name="input1" placeholder="Inventario Inicial"></input>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="input2" placeholder="Cantidad Optima"></input>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="r" placeholder="Reorden">
+                </div>
+                <div class="col">
+                    <input type="submit" class="btn btn-success" value="Simulacion"></input>
+                </div>
+            </div>
         </form>
+        <br>
+        <table id="Table_id" class="table table-dark">
+            <tr>
+              <th>Mes</th>
+              <th>Inventario Inicial</th> 
+              <th>Numero Aleatorio</th>
+              <th>Demanda ajustada</th>
+              <th>Inventario Final</th>
+              <th>Faltante</th>
+              <th>Orden</th>
+              <th>Inventario mensual promedio</th>
+            </tr>
+            <tr>
+              <td>
+                {% for x in numeracion %}
+                {{ x }} <br>
+                {% endfor %}
+              </td>
+              <td>
+                {% for x in n_bins %}
+                  {{ x }} <br>
+                {% endfor %}
+              </td>
+              <td>
+                {% for x in resinv %}
+                  {{ x }} <br>
+                {% endfor %}
+              </td>
+              <td>
+                {% for x in demandaAjustada %}
+                  {{ x }} <br>
+                {% endfor %}
+                </td>
+              <td>
+                {% for x in inventariofinal %}
+                  {{ x }} <br>
+                {% endfor %}
+              </td>
+              <td>
+                {% for x in faltante %}
+                  {{ x }} <br>
+                {% endfor %}
+              </td>
+              <td>
+                {% for x in n_samples %}
+                  {{ x }}
+                {% endfor %}
+              </td>
+              <td>
+                {% for x in inventarioPromedio %}
+                  {{ x }} <br>
+                {% endfor %}
+              </td>
+            </tr>
+          </table>
     </article>
+    <script> 
+        $(document).ready(function(){ 
+          $("button").click(function(){ 
+              
+            // Select all the rows in the table 
+            // and get the count of the selected elements 
+            var rowCount = $("#Table_id tr").length; 
+            alert(rowCount);  
+          }); 
+        }); 
+      </script>  
 </body>
 </html>
