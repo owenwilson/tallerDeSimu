@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 from tiv import *
 from random import seed
 from random import random
@@ -20,7 +20,7 @@ def poisson():
 def binomial():
     return render_template('binomial.html')
 
-@app.route('/inversa', methods=['GET'])
+@app.route('/inversa')
 def inversa():
     return render_template('inversa.html')
 
@@ -28,65 +28,82 @@ def inversa():
 def inversa_resultado():
     seed(1)
     data = random()
+    cantidadmeses = int(request.form['cantidadmeses'])
     n_bins = request.form['input1']
     n_samples = request.form['input2']
     resinv = inverse_transform_sampling(float(data), int(n_bins), int(n_samples))
     meses = len(resinv)
+    numeracionTabla = cantidadmeses
     numeracion = []
-    for x in range(1,meses+1):
+    for x in range(1,numeracionTabla+1):
         numeracion.append(x)
 
     numbersAleatory = []
     for positivo in resinv:
-        aux = round(np.abs(positivo), 4)
-        numbersAleatory.append(aux)
+        if(len(numbersAleatory) < cantidadmeses):
+            aux = round(np.abs(positivo), 4)
+            numbersAleatory.append(aux)
 
     invetarioInicial = []
-    for invetarioInc in range(1,meses+1):
-        auxInv = int(uniform(10,300))
-        invetarioInicial.append(auxInv)
+    for invetarioInc in range(1,cantidadmeses+1):
+        # auxInv = int(uniform(10,300))
+        invetarioInicial.append(int(n_bins))
 
-    r = request.form['r']
+    reorden = int(request.form['r'])
 
     demandaAjustada = []
-    for demandaAj in range(1,meses+1):
+    for demandaAj in range(1,cantidadmeses+1):
         factorEstacional = uniform(1.0, 2.5)
         demanda = int(uniform(1,8))
         resultadoDemandaFactor = round(int(demanda * factorEstacional), 4)
         demandaAjustada.append(resultadoDemandaFactor)
 
     invetarioFinal = []
-    for invetarioF in range(0,meses):
-        invf = invetarioInicial[invetarioF] - demandaAjustada[invetarioF]
-        invetarioFinal.append(invf)
+    for invetarioF in range(0,cantidadmeses):
+        invfinal = invetarioInicial[invetarioF] - demandaAjustada[invetarioF]
+        invetarioFinal.append(invfinal)
 
-    faltante = []
-    for faltanteInv in range(0,meses):
-        if(invetarioInicial[faltanteInv] - demandaAjustada[faltanteInv] > 0):
-            faltante.append(0)
-        else:
-            if(invetarioInicial[faltanteInv] - demandaAjustada[faltanteInv] < 0):
-                faltanteaux = invetarioInicial[faltanteInv] - demandaAjustada[faltanteInv]
-                faltante.append(faltanteaux)
+    # print(invetarioFinal)
 
-    for inventarioFinaltoinventarioInicial in range(1, meses):
+    for inventarioFinaltoinventarioInicial in range(1, cantidadmeses):
         refactor = invetarioFinal[inventarioFinaltoinventarioInicial-1]
         invetarioInicial[inventarioFinaltoinventarioInicial] = refactor
         invf = invetarioInicial[inventarioFinaltoinventarioInicial] - demandaAjustada[inventarioFinaltoinventarioInicial]
         invetarioFinal[inventarioFinaltoinventarioInicial] = invf
 
-    # orden = []
-    # for ordenInv in range(0,meses):
-    #     if(invetarioFinal[ordenInv] < r):
-    #         orden.append(1)
-    #     else:
-    #         if(invetarioFinal[ordenInv > r]):
-    #             orden.append
+    faltante = []
+    for faltanteInv in range(0,cantidadmeses):
+        if (invetarioFinal[faltanteInv] >= 0):
+            faltante.append(0)
+        else:
+            faltante.append(abs(invetarioFinal[faltanteInv]))
+
+    orden = []
+    for ordenInv in range(0,cantidadmeses):
+        if((invetarioFinal[ordenInv] < reorden) and len(orden)==0 ):
+            # orden[0] = 1
+            orden.append(1)
+        else:
+            if((invetarioFinal[ordenInv] < reorden) and len(orden)==1 ):
+                # orden[0] = 0
+                orden.append(0)
+            else:
+                if(invetarioFinal[ordenInv] > reorden and len(orden)==0):
+                    # orden[0] = 1
+                    orden.append(1)
+                else:
+                    # orden[0] = 0
+                    orden.append(0)
 
     inventarioPromedio = []
-    for inventarioProm in range(0,meses):
+    for inventarioProm in range(0,cantidadmeses):
         promedioaux = (invetarioInicial[inventarioProm] + invetarioFinal[inventarioProm]) / 2
         inventarioPromedio.append(int(promedioaux))
+
+    q = []
+    qq = len(n_samples)
+    for x in range(0,qq):
+        q.append(x)
 
     return render_template('inversa.html',
     numeracion=numeracion,
@@ -96,11 +113,13 @@ def inversa_resultado():
     demandaAjustada=demandaAjustada,
     inventariofinal=invetarioFinal,
     faltante=faltante,
-    inventarioPromedio=inventarioPromedio)
+    orden=orden,
+    inventarioPromedio=inventarioPromedio,
+    q=q)
 
-@app.route('/reporte_poisson.pdf')
+@app.route('/reporte_inversa.pdf')
 def reporte_pdf():
-    html = render_template('poisson.html')
+    html = render_template('inversa.html')
     return render_pdf(HTML(string=html))
 
 # @app.route('/reporte_home.pdf')

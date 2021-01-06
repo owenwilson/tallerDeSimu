@@ -9,8 +9,3 @@ def inverse_transform_sampling(data, n_bins, n_samples):
     inv_cdf = interpolate.interp1d(cum_values, bin_edges)
     r = np.random.rand(n_samples)
     return inv_cdf(r)
-#0.5
-#8
-#15
-
-# print(inverse_transform_sampling(data, n_bins, n_samples))

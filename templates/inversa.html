@@ -21,9 +21,12 @@
         <a href="{{ url_for('inversa')}}">Simulacion</a>
     </div>
     <br>
-    <article>
+<!-- form -->
         <form class="form-inline" action="{{url_for('inversa_resultado')}}" method="post">
-            <div class="row">
+            <div class="form-group">
+                <div class="col">
+                    <input type="text" class="form-control" name="cantidadmeses" placeholder="Cantidad Meses"></input>
+                </div>
                 <div class="col">
                     <input type="text" class="form-control" name="input1" placeholder="Inventario Inicial"></input>
                 </div>
@@ -38,6 +41,7 @@
                 </div>
             </div>
         </form>
+        <article>
         <br>
         <table id="Table_id" class="table table-dark">
             <tr>
@@ -56,11 +60,13 @@
                 {{ x }} <br>
                 {% endfor %}
               </td>
+              <!-- InventarioInicial -->
               <td>
                 {% for x in n_bins %}
                   {{ x }} <br>
                 {% endfor %}
               </td>
+              <!-- Numeros Aleatorios -->
               <td>
                 {% for x in resinv %}
                   {{ x }} <br>
@@ -70,20 +76,22 @@
                 {% for x in demandaAjustada %}
                   {{ x }} <br>
                 {% endfor %}
-                </td>
+              </td>
+              <!-- inventario final -->
               <td>
                 {% for x in inventariofinal %}
                   {{ x }} <br>
                 {% endfor %}
               </td>
+              <!-- faltante -->
               <td>
                 {% for x in faltante %}
                   {{ x }} <br>
                 {% endfor %}
               </td>
               <td>
-                {% for x in n_samples %}
-                  {{ x }}
+                {% for x in orden %}
+                  {{ x }} <br>
                 {% endfor %}
               </td>
               <td>
@@ -94,16 +102,70 @@
             </tr>
           </table>
     </article>
-    <script> 
-        $(document).ready(function(){ 
-          $("button").click(function(){ 
-              
-            // Select all the rows in the table 
-            // and get the count of the selected elements 
-            var rowCount = $("#Table_id tr").length; 
-            alert(rowCount);  
-          }); 
-        }); 
-      </script>  
+    <article>
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </article>
+    <article>
+      <canvas id="myChart2" width="400" height="400"></canvas>
+  </article>
+    <script>
+        var ctx = document.getElementById('myChart');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mes1', 'Mes2', 'Mes3', 'Mes4', 'Mes5', 'Mes6', 'Mes7', 'Mes8', 'Mes9', 'Mes10', 'Mes11', 'Mes12'],
+                datasets: [
+                  {
+                    label: 'Inventario Promedio',
+                    data: [{% for x in inventarioPromedio %}
+                            "{{ x }}",
+                            {% endfor %}],
+                  },
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+    <script>
+        var ctx = document.getElementById('myChart2');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mes1', 'Mes2', 'Mes3', 'Mes4', 'Mes5', 'Mes6', 'Mes7', 'Mes8', 'Mes9', 'Mes10', 'Mes11', 'Mes12'],
+                datasets: [
+                    {
+                    label: 'Inventarios inicial',
+                    data: [{% for x in n_bins %}
+                            "{{ x }}",
+                           {% endfor %}],
+                },
+                {
+                    label: 'Inventario Promedio',
+                    data: [{% for x in inventarioPromedio %}
+                            "{{ x }}",
+                            {% endfor %}],
+                },
+            ]
+        },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+    <a href="{{ url_for( 'reporte_pdf' ) }}">Imprimir</a>
 </body>
 </html>
