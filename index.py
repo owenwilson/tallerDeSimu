@@ -4,6 +4,7 @@ from random import seed
 from random import random
 from random import uniform
 import numpy as np
+from singleton import Singleton
 from flask_weasyprint import HTML, render_pdf
 
 app = Flask(__name__)
@@ -33,6 +34,7 @@ def inversa_resultado():
     n_samples = request.form['input2']
     resinv = inverse_transform_sampling(float(data), int(n_bins), int(n_samples))
     meses = len(resinv)
+    reorden = int(request.form['input3'])
     numeracionTabla = cantidadmeses
     numeracion = []
     for x in range(1,numeracionTabla+1):
@@ -49,7 +51,7 @@ def inversa_resultado():
         # auxInv = int(uniform(10,300))
         invetarioInicial.append(int(n_bins))
 
-    reorden = int(request.form['r'])
+    # reorden = int(request.form['reorden'])
 
     demandaAjustada = []
     for demandaAj in range(1,cantidadmeses+1):
@@ -78,21 +80,17 @@ def inversa_resultado():
         else:
             faltante.append(abs(invetarioFinal[faltanteInv]))
 
-    orden = []
-    for ordenInv in range(0,cantidadmeses):
-        if((invetarioFinal[ordenInv] < reorden) and len(orden)==0 ):
-            # orden[0] = 1
+    orden = [0]
+    for ordenInv in range(0,cantidadmeses-1):
+        if(invetarioFinal[ordenInv] < reorden):
             orden.append(1)
         else:
-            if((invetarioFinal[ordenInv] < reorden) and len(orden)==1 ):
-                # orden[0] = 0
+            if((invetarioFinal[ordenInv] < reorden) and orden[ordenInv] == 1 ):
                 orden.append(0)
             else:
-                if(invetarioFinal[ordenInv] > reorden and len(orden)==0):
-                    # orden[0] = 1
+                if(invetarioFinal[ordenInv] > reorden and orden[ordenInv]==0):
                     orden.append(1)
                 else:
-                    # orden[0] = 0
                     orden.append(0)
 
     inventarioPromedio = []
@@ -104,6 +102,26 @@ def inversa_resultado():
     qq = len(n_samples)
     for x in range(0,qq):
         q.append(x)
+
+    contandorOrden = 0
+    for x in range(len(orden)):
+        if(orden[x] == 1):
+            contandorOrden += orden[x]
+
+    contandorFaltante = 0
+    for x in range(len(faltante)):
+        if(faltante[x] > 0 ):
+            contandorFaltante += faltante[x]
+
+    contadorInventario = 0
+    for x  in range(len(inventarioPromedio)):
+        if(inventarioPromedio[x] > 0):
+            contadorInventario += inventarioPromedio[x]
+
+    auxiliar = Singleton.getInstance()
+    auxiliar.orden = contandorOrden
+    auxiliar.faltante = contandorFaltante
+    auxiliar.inventarioPromedio = contadorInventario
 
     return render_template('inversa.html',
     numeracion=numeracion,
@@ -117,15 +135,33 @@ def inversa_resultado():
     inventarioPromedio=inventarioPromedio,
     q=q)
 
+@app.route('/resultado_costos', methods=['POST'])
+def resultado_costos():
+    auxiliar = Singleton.getInstance()
+    variable = auxiliar.orden
+    variable2 = auxiliar.faltante
+    variable3 = auxiliar.inventarioPromedio
+    # print(variable)
+
+    costoOrdenar = int(request.form['costoOrdenar'])
+    costoFaltante = int(request.form['costoFaltante'])
+    costoInventario = int(request.form['costoInventario'])
+
+    totalCostoOrden = variable * costoOrdenar
+    totalCostoFaltante = variable2 * costoFaltante
+    totalCostoInventarioPromedio = variable3 * costoInventario
+    totalfinal = totalCostoOrden + totalCostoFaltante + totalCostoInventarioPromedio
+
+    return render_template('inversa.html',
+    contadorAuxiliar=totalCostoOrden,
+    costoFaltante=totalCostoFaltante,
+    costoInventario=totalCostoInventarioPromedio,
+    totalfinal=totalfinal)
+
 @app.route('/reporte_inversa.pdf')
 def reporte_pdf():
     html = render_template('inversa.html')
     return render_pdf(HTML(string=html))
-
-# @app.route('/reporte_home.pdf')
-# def reporte_home():
-#     html = render_template('index.html')
-#     return render_pdf(HTML(string=html))
 
 if __name__ == '__main__':
     app.run(debug=True)

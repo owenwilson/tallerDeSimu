@@ -34,13 +34,14 @@
                     <input type="text" class="form-control" name="input2" placeholder="Cantidad Optima"></input>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" name="r" placeholder="Reorden">
+                    <input type="text" class="form-control" name="input3" placeholder="Reorden"></input>
                 </div>
                 <div class="col">
                     <input type="submit" class="btn btn-success" value="Simulacion"></input>
                 </div>
             </div>
         </form>
+<!-- end form -->
         <article>
         <br>
         <table id="Table_id" class="table table-dark">
@@ -102,6 +103,52 @@
             </tr>
           </table>
     </article>
+    <br>
+    <article>
+      <!-- form -->
+        <form class="form-inline" action="{{url_for('resultado_costos')}}" method="post">
+            <div class="form-group">
+                <div class="col">
+                    <input type="text" class="form-control" name="costoOrdenar" placeholder="Costo de Ordenar"></input>
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" name="costoFaltante" placeholder="Costo de Faltante"></input>
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" name="costoInventario" placeholder="Costo de Inventario"></input>
+                </div>
+                <div class="col">
+                    <input type="submit" class="btn btn-primary" value="Simulacion Costos"></input>
+                </div>
+            </div>
+        </form>
+      <!-- end form -->
+      </article>
+      <br>
+      <article>
+        <table id="Table_id" class="table table-dark">
+          <tr>
+            <th>Costo Ordenar</th>
+            <th>Costo Faltante</th> 
+            <th>Costo Inventario</th>
+            <th>Total</th>
+          </tr>
+          <tr>
+            <td>
+              {{ contadorAuxiliar }}
+            </td>
+            <td>
+              {{ costoFaltante }}
+            </td>
+            <td>
+              {{ costoInventario }}
+            </td>
+            <td>
+              {{ totalfinal }}
+            </td>
+          </tr>
+          </table>
+        </article>
     <article>
         <canvas id="myChart" width="400" height="400"></canvas>
     </article>
@@ -120,10 +167,40 @@
                     data: [{% for x in inventarioPromedio %}
                             "{{ x }}",
                             {% endfor %}],
+                            backgroundColor: [
+                            "#20872D",
+                            "#EFE33A",
+                            "#3AA1EF",
+                            "#1510BC",
+                            "#E51DDE",
+                            "#115F08",
+                            "#D7552D",
+                            "#2D55D7"
+                            ],
                   },
                 ]
             },
             options: {
+              title: {
+                display: true,
+                text: 'Grafica Inventario Promedio',
+                fontSize: 30,
+                padding: 30,
+                fontColor: '#12619c',
+              },
+              elements: {
+                line: {
+                  borderWidth: 8,
+                  fill: false,
+                },
+                point: {
+                  radius: 6,
+                  borderWidth: 4,
+                  backgroundColor: 'black',
+                  hoverRadius: 8,
+                  hoverBorderWidth: 4,
+                },
+              },
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -137,7 +214,7 @@
     <script>
         var ctx = document.getElementById('myChart2');
         var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: ['Mes1', 'Mes2', 'Mes3', 'Mes4', 'Mes5', 'Mes6', 'Mes7', 'Mes8', 'Mes9', 'Mes10', 'Mes11', 'Mes12'],
                 datasets: [
@@ -146,16 +223,51 @@
                     data: [{% for x in n_bins %}
                             "{{ x }}",
                            {% endfor %}],
+                    backgroundColor: [
+                      "#166B2D",
+                      "#166B2D",
+                      "#166B2D",
+                      "#166B2D",
+                      "#166B2D",
+                      "#166B2D",
+                      "#166B2D",
+                      "#166B2D",
+                      "#166B2D",
+                      "#166B2D",
+                      "#166B2D",
+                      "#166B2D",
+                    ],
                 },
                 {
                     label: 'Inventario Promedio',
                     data: [{% for x in inventarioPromedio %}
                             "{{ x }}",
                             {% endfor %}],
+                    backgroundColor: [
+                      "#3834C1",
+                      "#3834C1",
+                      "#3834C1",
+                      "#3834C1",
+                      "#3834C1",
+                      "#3834C1",
+                      "#3834C1",
+                      "#3834C1",
+                      "#3834C1",
+                      "#3834C1",
+                      "#3834C1",
+                      "#3834C1",
+                    ],
                 },
             ]
         },
             options: {
+              title: {
+                display: true,
+                text: 'Grafica Inventario Inicial y Inventario Promedio',
+                fontSize: 30,
+                padding: 30,
+                fontColor: '#12619c',
+              },
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -166,6 +278,10 @@
             }
         });
     </script>
-    <a href="{{ url_for( 'reporte_pdf' ) }}">Imprimir</a>
+    <br>
+    <article>
+      <a href="{{ url_for( 'reporte_pdf' ) }}" class="btn btn-dark btn-lg">Imprimir Grafica de simulacion</a>
+    </article>
+    <br>
 </body>
 </html>
