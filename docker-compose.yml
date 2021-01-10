@@ -10,7 +10,7 @@ services:
       liquida:
         ipv4_address: 172.20.0.10
     ports:
-      - "5000:5000"
+      - "6000:5000"
 networks:
   liquida:
     external:
