@@ -165,5 +165,5 @@ def reporte_pdf():
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(host = '172.20.0.10', port=5000)
+    app.run(host = '0.0.0.0', port=6000)
     # app.run();
