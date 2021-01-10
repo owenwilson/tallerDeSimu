@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  vip:
+    container_name: tallerdesimu
+    image: tallerdesimu:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    networks:
+      simulacion:
+        ipv4_address: 172.20.0.3
+    ports:
+      - "5000:5000"
+networks:
+  simulacion:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24

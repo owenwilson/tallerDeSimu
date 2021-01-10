@@ -1,0 +1,17 @@
+version: '3.3'
+services:
+  vip:
+    container_name: tallerdesimu
+    image: tallerdesimu:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    networks:
+      liquida:
+        ipv4_address: 172.20.0.10
+    ports:
+      - "5000:5000"
+networks:
+  liquida:
+    external:
+      name: code_liquida
